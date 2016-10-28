@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.tangent.ikruger.tangentchallenge.DataEntities.User;
 import com.tangent.ikruger.tangentchallenge.R;
 
 public class ProjectsActivity extends AppCompatActivity {
@@ -23,6 +25,12 @@ public class ProjectsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String test = getIntent().getExtras().getString("com.tangent.ikruger.tangentchallenge.Activities.Token");
+
+                Gson gson = new Gson();
+
+                User me = gson.fromJson("{\"id\":13,\"first_name\":\"admin\",\"last_name\":\"admin\",\"username\":\"admin1\",\"email\":\"\",\"is_staff\":true,\"is_superuser\":true,\"profile\":{\"contact_number\":\"\",\"status_message\":null,\"bio\":null},\"authentications\":[],\"roles\":[]}",User.class);
+
+
                 Snackbar.make(view, test, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
