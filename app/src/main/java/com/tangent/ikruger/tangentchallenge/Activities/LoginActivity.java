@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangent.ikruger.tangentchallenge.R;
+import com.tangent.ikruger.tangentchallenge.Util.RestRequestTask;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,12 +35,12 @@ import java.util.Properties;
 /**
  * A login screen that offers login via username/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements RestRequestTask.RestResult {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private RestRequestTask mAuthTask = null;
 
     // UI references.
     private EditText userNameView;
@@ -127,8 +128,9 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(username, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask = new RestRequestTask(getString(R.string.authentication_url), "POST", String.format("{\"username\":\"%1$s\", \"password\": \"%2$s\"}", username,password));
+            mAuthTask.registerRestResultListener(this);
+            mAuthTask.execute((URL) null);
         }
     }
 
@@ -176,94 +178,28 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    @Override
+    public void onRestResult(String result) {
 
-        private final String mUsername;
-        private final String mPassword;
+        Gson gson = new Gson();
 
-        private URL url;
-        private HttpURLConnection connection;
+        Properties properties = gson.fromJson(result, Properties.class);
 
-        private String token = "";
-
-
-        UserLoginTask(String username, String password) {
-            mUsername = username;
-            mPassword = password;
-            try {
-                url = new URL(getString(R.string.authentication_url));
-            }catch (MalformedURLException ex){
-                //TODO Warn the user that there has been at catastrophic error, one of the developers hardcoded a malformed URL... Scandal
-            }
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            if (url == null) return false;
-
-            try {
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type","application/json");
-                connection.setDoOutput(true);
-
-                OutputStreamWriter dataWriter = new OutputStreamWriter(connection.getOutputStream());
-
-                dataWriter.write(String.format("{\"username\":\"%1$s\", \"password\": \"%2$s\"}", mUsername,mPassword));
-
-                dataWriter.flush();
-
-                dataWriter.close();
-
-                if(connection.getResponseCode() == 200){
-
-                    Gson gson = new Gson();
-
-                    Properties properties = gson.fromJson(new InputStreamReader(connection.getInputStream()), Properties.class);
-
-                    token = properties.getProperty("token","");
-
-                    connection.disconnect();
-
-                }else{
-                    return false;
-                }
-
-            } catch (IOException ioEx ){
-                Toast.makeText(getApplicationContext(),ioEx.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-                return false;
-            } catch (Exception ex){
-                return false;
-            }
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-
-            if (success && !token.isEmpty()) {
-                Intent intent = new Intent(getApplicationContext(),ProjectsActivity.class);
-                intent.putExtra("com.tangent.ikruger.tangentchallenge.Activities.Token",token);
-                startActivity(intent);
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-
-            mAuthTask = null;
-            showProgress(false);
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
+        Intent intent = new Intent(getApplicationContext(),ProjectsActivity.class);
+        intent.putExtra("com.tangent.ikruger.tangentchallenge.Activities.Token",properties.getProperty("token",""));
+        startActivity(intent);
     }
+
+    @Override
+    public void onRestError(String error) {
+        //Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+
+        mPasswordView.setError(getString(R.string.error_incorrect_password));
+        mPasswordView.requestFocus();
+
+        mAuthTask = null;
+        showProgress(false);
+    }
+
 }
 
