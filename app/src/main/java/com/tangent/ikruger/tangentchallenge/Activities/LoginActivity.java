@@ -6,8 +6,6 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
-import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,17 +16,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangent.ikruger.tangentchallenge.R;
 import com.tangent.ikruger.tangentchallenge.Util.RestRequestTask;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -185,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements RestRequestTask.
 
         Properties properties = gson.fromJson(result, Properties.class);
 
-        Intent intent = new Intent(getApplicationContext(),ProjectsActivity.class);
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
         intent.putExtra("com.tangent.ikruger.tangentchallenge.Activities.Token",properties.getProperty("token",""));
         startActivity(intent);
     }

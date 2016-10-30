@@ -22,6 +22,7 @@ public class RestRequestTask extends AsyncTask<URL, Void, String> {
     private String METHOD = "GET";
     private String URL = "";
     private String CONTENT_TYPE = "application/json";
+    private String AUTHERIZATION= "";
     private String DATA = "";
 
     private URL RestURL;
@@ -88,6 +89,14 @@ public class RestRequestTask extends AsyncTask<URL, Void, String> {
         this.DATA = DATA;
     }
 
+    public String getAUTHERIZATION() {
+        return AUTHERIZATION;
+    }
+
+    public void setAUTHERIZATION(String AUTHERIZATION) {
+        this.AUTHERIZATION = AUTHERIZATION;
+    }
+
     @Override
     protected String doInBackground(URL... params) {
         if (RestURL == null) {
@@ -99,15 +108,20 @@ public class RestRequestTask extends AsyncTask<URL, Void, String> {
             HttpURLConnection connection = (HttpURLConnection) this.RestURL.openConnection();
             connection.setRequestMethod(this.METHOD);
             connection.setRequestProperty("Content-Type",this.getCONTENT_TYPE());
-            connection.setDoOutput(true);
+            if (!this.AUTHERIZATION.isEmpty())
+                connection.setRequestProperty("Authorization",this.AUTHERIZATION);
 
-            OutputStreamWriter dataWriter = new OutputStreamWriter(connection.getOutputStream());
+            if (this.METHOD.equals("POST")) {
+                connection.setDoOutput(true);
 
-            dataWriter.write(this.DATA);
+                OutputStreamWriter dataWriter = new OutputStreamWriter(connection.getOutputStream());
 
-            dataWriter.flush();
+                dataWriter.write(this.DATA);
 
-            dataWriter.close();
+                dataWriter.flush();
+
+                dataWriter.close();
+            }
 
             if(connection.getResponseCode() == 200){
 

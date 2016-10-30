@@ -14,4 +14,7 @@
     <string name="title_activity_projects">Projects</string>
 
     <string name="authentication_url">http://userservice.staging.tangentmicroservices.com:80/api-token-auth/</string>
+    <string name="projects_url">http://projectservice.staging.tangentmicroservices.com:80/api/v1/projects/</string>
+
+    <string name="project_list_end_date_lable">End Date:</string>
 </resources>
