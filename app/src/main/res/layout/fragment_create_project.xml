@@ -1,0 +1,119 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tangent.ikruger.tangentchallenge.Fragments.CreateProjectFragment"
+    android:animateLayoutChanges="true">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/createproject_project_title_holder">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords|textPersonName"
+            android:hint="@string/project_create_project_name"
+            android:ems="10"
+            android:id="@+id/createproject_project_title"
+            android:layout_marginTop="18dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createproject_project_title_holder"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/detailedDescriptionEditText_holder">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:layout_below="@+id/createproject_project_title"
+            android:id="@+id/detailedDescriptionEditText"
+            android:hint="@string/project_create_detailed_description"
+            android:layout_margin="@dimen/text_margin"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detailedDescriptionEditText_holder"
+        android:layout_alignRight="@+id/createproject_project_title_holder"
+        android:layout_alignEnd="@+id/createproject_project_title_holder"
+        android:layout_marginTop="15dp"
+        android:id="@+id/startDateButton" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/startDateButton"
+        android:layout_alignRight="@+id/startDateButton"
+        android:layout_alignEnd="@+id/startDateButton"
+        android:layout_marginTop="22dp"
+        android:id="@+id/endDateButton" />
+
+    <TextView
+        android:text="@string/project_create_start_date_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/endDateButton"
+        android:layout_toLeftOf="@+id/startDateButton"
+        android:layout_toStartOf="@+id/startDateButton"
+        android:layout_margin="@dimen/text_margin"
+        android:id="@+id/startDateButtonLabel"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    <TextView
+        android:text="@string/project_create_end_date_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/endDateButtonLabel"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:layout_alignBaseline="@+id/endDateButton"
+        android:layout_alignBottom="@+id/endDateButton"
+        android:layout_marginRight="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:layout_alignLeft="@+id/startDateButtonLabel"
+        android:layout_alignStart="@+id/startDateButtonLabel" />
+
+    <ToggleButton
+        android:text="ToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activeToggleButton"
+        android:textOff="@string/project_create_active_button_label"
+        android:textOn="@string/project_create_active_button_label"
+        android:checked="true"
+        android:layout_alignBaseline="@+id/billableToggleButton"
+        android:layout_alignBottom="@+id/billableToggleButton"
+        android:layout_alignLeft="@+id/endDateButton"
+        android:layout_alignStart="@+id/endDateButton" />
+
+    <ToggleButton
+        android:text="ToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:id="@+id/billableToggleButton"
+        android:textOff="@string/project_create_billable_button_label"
+        android:textOn="@string/project_create_billable_button_label"
+        android:checked="true"
+        android:layout_below="@+id/endDateButtonLabel"
+        android:layout_alignRight="@+id/endDateButtonLabel"
+        android:layout_alignEnd="@+id/endDateButtonLabel" />
+
+</RelativeLayout>

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangent.ikruger.tangentchallenge.DataEntities.Project;
+import com.tangent.ikruger.tangentchallenge.DataEntities.User;
 import com.tangent.ikruger.tangentchallenge.R;
 import com.tangent.ikruger.tangentchallenge.Util.RestRequestTask;
 
@@ -36,6 +37,8 @@ public class ProjectListFragment extends Fragment implements RestRequestTask.Res
 
     private RestRequestTask mAsyncTask;
     private List<Project> projects = new ArrayList<>();
+
+    private User mUser;
 
     private MyProjectListRecyclerViewAdapter viewAdapter = new MyProjectListRecyclerViewAdapter(projects,mListener);
 
@@ -94,9 +97,15 @@ public class ProjectListFragment extends Fragment implements RestRequestTask.Res
                     + " must implement OnListFragmentInteractionListener");
         }
 
+        Gson gson = new Gson();
+
+        mUser = gson.fromJson(getArguments().getString("com.tangent.ikruger.tangentchallenge.Activities.User"),User.class);
+
+        Toast.makeText(getContext(), String.format("Welcome %1$s,%2$s", mUser.getFirst_name(),mUser.getLast_name()),Toast.LENGTH_LONG).show();
+
         mAsyncTask = new RestRequestTask(getString(R.string.projects_url),"");
         mAsyncTask.registerRestResultListener(this);
-        String token = getActivity().getIntent().getExtras().getString("com.tangent.ikruger.tangentchallenge.Activities.Token");
+        String token = getArguments().getString("com.tangent.ikruger.tangentchallenge.Activities.Token");
         mAsyncTask.setMETHOD("GET");
         mAsyncTask.setAUTHERIZATION(token);
 
@@ -128,9 +137,13 @@ public class ProjectListFragment extends Fragment implements RestRequestTask.Res
         Gson gson = new Gson();
         Project[] projects = gson.fromJson(result,Project[].class);
 
-        this.projects.addAll(Arrays.asList(projects));
-
-        this.viewAdapter.notifyDataSetChanged();
+        if (projects.length > 0) {
+            this.projects.addAll(Arrays.asList(projects));
+            this.viewAdapter.notifyDataSetChanged();
+        }else{
+            //TODO: Ask user to create a project
+            Toast.makeText(getContext(),getString(R.string.no_projects_for_user),Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

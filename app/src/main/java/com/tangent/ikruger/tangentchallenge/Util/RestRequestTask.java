@@ -109,7 +109,7 @@ public class RestRequestTask extends AsyncTask<URL, Void, String> {
             connection.setRequestMethod(this.METHOD);
             connection.setRequestProperty("Content-Type",this.getCONTENT_TYPE());
             if (!this.AUTHERIZATION.isEmpty())
-                connection.setRequestProperty("Authorization",this.AUTHERIZATION);
+                connection.setRequestProperty("Authorization", "Token" + this.AUTHERIZATION);
 
             if (this.METHOD.equals("POST")) {
                 connection.setDoOutput(true);

@@ -13,8 +13,22 @@
 
     <string name="title_activity_projects">Projects</string>
 
+    <string name="no_projects_for_user">There aren\'t any projects for you. Would you like to create one?</string>
+
     <string name="authentication_url">http://userservice.staging.tangentmicroservices.com:80/api-token-auth/</string>
     <string name="projects_url">http://projectservice.staging.tangentmicroservices.com:80/api/v1/projects/</string>
+    <string name="user_url">http://userservice.staging.tangentmicroservices.com:80/api/v1/users/me/</string>
 
     <string name="project_list_end_date_lable">End Date:</string>
+
+    <string name="project_create_project_name">Project Name</string>
+    <string name="project_create_detailed_description">Detailed Description</string>
+    <string name="project_create_start_date_lable">Start Date:</string>
+    <string name="project_create_end_date_lable">End Date:</string>
+    <string name="project_create_billable_button_label">Billable</string>
+    <string name="project_create_active_button_label">Active</string>
+
+    <string name="menu_save">Save</string>
+
+
 </resources>
