@@ -38,7 +38,7 @@ public class MyProjectListRecyclerViewAdapter extends RecyclerView.Adapter<MyPro
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTitleView.setText(mValues.get(position).getDescription());
-        holder.mdueDateView.setText(mValues.get(position).getEnd_date().toString());
+        holder.mdueDateView.setText(mValues.get(position).getEnd_date());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -16,7 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ToggleButton;
 
+import com.tangent.ikruger.tangentchallenge.DataEntities.Project;
 import com.tangent.ikruger.tangentchallenge.R;
 
 import java.text.DateFormat;
@@ -55,13 +58,6 @@ public class CreateProjectFragment extends Fragment implements DatePickerDialog.
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onProjectCreated();
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -72,7 +68,7 @@ public class CreateProjectFragment extends Fragment implements DatePickerDialog.
                     + " must implement OnFragmentInteractionListener");
         }
 
-
+        getActivity().findViewById(R.id.floatingActionButton).setVisibility(View.GONE);
     }
 
     @Override
@@ -134,12 +130,30 @@ public class CreateProjectFragment extends Fragment implements DatePickerDialog.
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    private Project parseProjectFromForm(){
+        Project result = new Project();
+
+        EditText title = (EditText) getActivity().findViewById(R.id.createproject_project_title);
+
+        result.setTitle(title.getText().toString());
+
+        result.setDescription(((EditText) getActivity().findViewById(R.id.detailedDescriptionEditText)).getText().toString());
+
+        result.setStart_date(btStartDate.getText().toString());
+        result.setEnd_date(btEndDate.getText().toString());
+
+        result.setIs_active(((ToggleButton)getActivity().findViewById(R.id.activeToggleButton)).isChecked());
+        result.setIs_billable(((ToggleButton)getActivity().findViewById(R.id.billableToggleButton)).isChecked());
+
+        return result;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
             case R.id.save:
-                mListener.onProjectCreated();
+                mListener.onProjectCreated(parseProjectFromForm());
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -157,6 +171,6 @@ public class CreateProjectFragment extends Fragment implements DatePickerDialog.
      */
     public interface OnProjectCreateSubmitListener {
         // TODO: Update argument type and name
-        void onProjectCreated();
+        void onProjectCreated(Project newProject);
     }
 }

@@ -28,7 +28,19 @@
     <string name="project_create_billable_button_label">Billable</string>
     <string name="project_create_active_button_label">Active</string>
 
+    <string name="project_create_project_created">Your project has been created</string>
+    <string name="project_create_project_create_error">Unfortunately due to network error\'s we were unable to create your project. Please try again later, or contact Sales Support.</string>
+
     <string name="menu_save">Save</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="date_format">dd-MM-yy</string>
+
+    <string name="error_dialog_title">Well this is embarrising:</string>
+    <string name="user_data_retireve_error">You have successfully logged in however we were unable to retrieve your user information. This might mean the service is down. Please try again later or contact your Sales Support Operative</string>
+    <string name="error_dialog_ok_button">OK</string>
 
 
 </resources>

@@ -2,6 +2,11 @@ package com.tangent.ikruger.tangentchallenge.DataEntities;
 
 import com.google.gson.Gson;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Ivan Kruger on 2016-10-29.
  */
@@ -14,9 +19,34 @@ public class Project {
     String end_date;
     boolean is_billable;
     boolean is_active;
-//    task_set (array[TaskSerializer]),
-//    resource_set (array[ResourceSerializer])
+    Task[] tasks;
+    Resource[] resources;
 
+    public void addTask(Task T){
+        List<Task> temp = Arrays.asList(this.tasks);
+        temp.add(T);
+        this.tasks = temp.toArray(this.tasks);
+    }
+
+    public boolean removeTask(Task T){
+        List<Task> temp = Arrays.asList(this.tasks);
+        boolean result = temp.remove(T);
+
+        this.tasks = temp.toArray(this.tasks);
+        return result;
+    }
+
+    public List<Task> getTasks(){
+        return Arrays.asList(this.tasks);
+    }
+
+    public Resource[] getResources() {
+        return resources;
+    }
+
+    public void setResources(Resource[] resources) {
+        this.resources = resources;
+    }
 
     public int getPk() {
         return pk;
@@ -81,5 +111,10 @@ public class Project {
     public static Project fromJson(String s){
         Gson gson = new Gson();
         return gson.fromJson(s,Project.class);
+    }
+
+    public String toJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this,Project.class);
     }
 }

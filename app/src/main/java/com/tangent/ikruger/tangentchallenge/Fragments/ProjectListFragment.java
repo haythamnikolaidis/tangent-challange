@@ -97,19 +97,24 @@ public class ProjectListFragment extends Fragment implements RestRequestTask.Res
                     + " must implement OnListFragmentInteractionListener");
         }
 
+        getActivity().findViewById(R.id.floatingActionButton).setVisibility(View.VISIBLE);
+
         Gson gson = new Gson();
 
-        mUser = gson.fromJson(getArguments().getString("com.tangent.ikruger.tangentchallenge.Activities.User"),User.class);
+        if(getArguments() != null) {
 
-        Toast.makeText(getContext(), String.format("Welcome %1$s,%2$s", mUser.getFirst_name(),mUser.getLast_name()),Toast.LENGTH_LONG).show();
+            mUser = gson.fromJson(getArguments().getString("com.tangent.ikruger.tangentchallenge.Activities.User"), User.class);
 
-        mAsyncTask = new RestRequestTask(getString(R.string.projects_url),"");
-        mAsyncTask.registerRestResultListener(this);
-        String token = getArguments().getString("com.tangent.ikruger.tangentchallenge.Activities.Token");
-        mAsyncTask.setMETHOD("GET");
-        mAsyncTask.setAUTHERIZATION(token);
+            Toast.makeText(getContext(), String.format("Welcome %1$s,%2$s", mUser.getFirst_name(), mUser.getLast_name()), Toast.LENGTH_LONG).show();
 
-        mAsyncTask.execute((URL)null);
+            mAsyncTask = new RestRequestTask(getString(R.string.projects_url), "");
+            mAsyncTask.registerRestResultListener(this);
+            String token = getArguments().getString("com.tangent.ikruger.tangentchallenge.Activities.Token");
+            mAsyncTask.setMETHOD("GET");
+            mAsyncTask.setAUTHERIZATION(token);
+
+            mAsyncTask.execute((URL) null);
+        }
     }
 
     @Override
@@ -149,5 +154,6 @@ public class ProjectListFragment extends Fragment implements RestRequestTask.Res
     @Override
     public void onRestError(String error) {
         Log.d("PRoject List",error);
+        Toast.makeText(getContext(),getString(R.string.no_projects_for_user),Toast.LENGTH_LONG).show();
     }
 }
